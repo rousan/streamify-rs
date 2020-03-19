@@ -1,0 +1,15 @@
+[package]
+name = "streamify"
+version = "0.1.0"
+description = "Conversions from values to Stream"
+homepage = "https://github.com/rousan/streamify-rs"
+repository = "https://github.com/rousan/streamify-rs"
+keywords = ["rust", "stream", "futures-rs", "tokio-rs", "conversion"]
+categories = ["asynchronous"]
+authors = ["Rousan Ali <rousanali786@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+edition = "2018"
+
+[dependencies]
+futures-core = "0.3.4"
