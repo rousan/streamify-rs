@@ -22,10 +22,11 @@ impl<T: Clone> StreamifyAny<T> {
 impl<T: Clone> Stream for StreamifyAny<T> {
   type Item = T;
 
-  fn poll_next(self: Pin<&mut Self>, _: &mut Context) -> Poll<Option<Self::Item>> {
+  fn poll_next(mut self: Pin<&mut Self>, _: &mut Context) -> Poll<Option<Self::Item>> {
     if self.completed {
       Poll::Ready(None)
     } else {
+      self.completed = true;
       Poll::Ready(Some(self.inner.clone()))
     }
   }
