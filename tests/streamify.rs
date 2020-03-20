@@ -1,16 +1,37 @@
+use futures::executor::block_on;
+use futures::stream::StreamExt;
+use std::future::Future;
 use streamify;
 
 #[test]
 fn streamify_a_future() {
-  let fut = async { 10 };
-  let stream = streamify::from_future(fut);
+  // Test Copy values
+  let fut = async { 11 };
+  let mut stream = streamify::from_future(fut);
+
+  block_on(async {
+    assert_eq!(Some(11), stream.next().await);
+    assert_eq!(None, stream.next().await);
+  });
+
+  // Test Non-Copy values
+  let fut = async { "Rust".to_owned() };
+  let mut stream = streamify::from_future(fut);
+
+  block_on(async {
+    assert_eq!(Some("Rust".to_owned()), stream.next().await);
+    assert_eq!(None, stream.next().await);
+  });
 }
 
 #[test]
-fn streamify_any_value() {
-  let val = 10;
-  let stream = streamify::from_any(val);
+fn random() {
+  let x = async { 10 };
+  let y = async { 33 };
 
-  let val = "Testing".to_owned();
-  let stream = streamify::from_any(val);
+  // let f: &'static dyn Future<Output = i32> = &x;
+
+  let arr: [&dyn Future<Output = i32>; 2] = [&x, &y];
+  let mut iter = arr.iter().copied();
+  let y = iter.next();
 }

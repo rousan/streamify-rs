@@ -47,3 +47,11 @@ impl<T: Future> Stream for StreamifyFuture<T> {
 pub fn from_future<T: Future>(f: T) -> StreamifyFuture<T> {
   StreamifyFuture::new(f)
 }
+
+// pub fn from_futures<T, I: IntoIterator<Item = Box<dyn Future<Output = T>>>>(i: I) {
+//   for item in i {
+//     from_future(item);
+//   }
+// }
+
+// 2. streamify::from_futures(fut); IntoIterator<Item = impl Future<Output = T>>
